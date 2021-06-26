@@ -3,10 +3,11 @@ package com.dio.live.controller;
 import com.dio.live.model.JornadaTrabalho;
 import com.dio.live.service.JornadaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/jornada")
@@ -18,6 +19,16 @@ public class JornadaTrabalhoController {
     @PostMapping
     public JornadaTrabalho createJornada(@RequestBody JornadaTrabalho jornadaTrabalho) {
         return this.jornadaService.saveJornada(jornadaTrabalho);
+    }
+
+    @GetMapping
+    public List<JornadaTrabalho> getJornadaList() {
+        return this.jornadaService.findAll();
+    }
+
+    @GetMapping("/{idJornada}")
+    public ResponseEntity<JornadaTrabalho> jornadaFindById(@PathVariable("idJornada") Long idJornada) {
+        return this.jornadaService.getById(idJornada);
     }
 
 }
