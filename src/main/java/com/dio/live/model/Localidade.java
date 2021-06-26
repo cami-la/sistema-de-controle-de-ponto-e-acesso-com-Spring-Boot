@@ -2,7 +2,7 @@ package com.dio.live.model;
 
 import lombok.*;
 
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 @Builder
 public class Localidade {
     private Long id;
-    @OneToMany //uma localidade tem vários níveis de acesso
+    @ManyToOne //várias localidades tem um nível de acesso
     private NivelDeAcesso nivelDeAcesso;
     private String descricao;
 }
