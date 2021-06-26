@@ -22,16 +22,27 @@ public class JornadaService {
         return this.jornadaRepository.findAll();
     }
 
+    public ResponseEntity<JornadaTrabalho> getById(Long idJornada) {
+        Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
+        return byId.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
-    public ResponseEntity<JornadaTrabalho> getById(Long idJornada) throws Exception {
+    public ResponseEntity<JornadaTrabalho> updateJornada(Long idJornada) {
+        Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
+        return byId.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<JornadaTrabalho> deleteJornada(Long idJornada) {
         Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
 
-        if(byId.isPresent()) {
-            return ResponseEntity.ok(byId.get());
+        if (byId.isPresent()) {
+            this.jornadaRepository.deleteById(idJornada);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        throw new Exception("Jornada não encontrada!");
-    }
 
     }
 
+}
 

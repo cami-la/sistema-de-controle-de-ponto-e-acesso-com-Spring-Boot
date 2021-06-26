@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/jornada")
@@ -30,5 +29,11 @@ public class JornadaTrabalhoController {
     public ResponseEntity<JornadaTrabalho> jornadaFindById(@PathVariable("idJornada") Long idJornada) {
         return this.jornadaService.getById(idJornada);
     }
+
+    @DeleteMapping("/{idJornada}")
+    public ResponseEntity<JornadaTrabalho> deleteJornadaFindById(@PathVariable("idJornada") Long idJornada) {
+        return this.jornadaService.deleteJornada(idJornada);
+    }
+
 
 }
