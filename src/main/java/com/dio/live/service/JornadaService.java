@@ -1,11 +1,15 @@
 package com.dio.live.service;
 
+import com.dio.live.controller.dto.JornadaTrabalhoDto;
+import com.dio.live.controller.form.AtualizacaoJornadaTrabalhoForm;
 import com.dio.live.model.JornadaTrabalho;
 import com.dio.live.repository.JornadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +31,16 @@ public class JornadaService {
         return byId.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<JornadaTrabalho> updateJornada(Long idJornada) {
+    public ResponseEntity<JornadaTrabalhoDto> updateJornada( Long idJornada, AtualizacaoJornadaTrabalhoForm form ) {
         Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
-        return byId.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+        if (byId.isPresent()) {
+            JornadaTrabalho jornadaTrabalho = form.update(idJornada, this.jornadaRepository);
+            return ResponseEntity.ok(new JornadaTrabalhoDto(jornadaTrabalho));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     public ResponseEntity<JornadaTrabalho> deleteJornada(Long idJornada) {
