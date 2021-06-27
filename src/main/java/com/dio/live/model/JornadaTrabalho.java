@@ -21,5 +21,9 @@ public class JornadaTrabalho {
     private Long id;
     private String descricao;
 
+    public JornadaTrabalho(String descricao) {
+        this.descricao = descricao;
+    }
+
 }
 

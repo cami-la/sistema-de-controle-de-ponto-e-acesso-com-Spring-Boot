@@ -1,9 +1,13 @@
 package com.dio.live.controller.dto;
 
 import com.dio.live.model.JornadaTrabalho;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class JornadaTrabalhoDto {
     private Long id;
     private String descricao;
@@ -13,7 +17,6 @@ public class JornadaTrabalhoDto {
         this.descricao = jornadaTrabalho.getDescricao();
     }
 
-    /*public JornadaTrabalho convert(JornadaTrabalho jornadaTrabalho) {
-        return jornadaTrabalh
-    }*/
+
+
 }

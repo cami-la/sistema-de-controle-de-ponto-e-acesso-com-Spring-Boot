@@ -2,14 +2,13 @@ package com.dio.live.service;
 
 import com.dio.live.controller.dto.JornadaTrabalhoDto;
 import com.dio.live.controller.form.AtualizacaoJornadaTrabalhoForm;
+import com.dio.live.controller.form.JornadaTrabalhoForm;
 import com.dio.live.model.JornadaTrabalho;
 import com.dio.live.repository.JornadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,17 +17,28 @@ public class JornadaService {
     @Autowired
     private JornadaRepository jornadaRepository;
 
-    public JornadaTrabalho saveJornada(JornadaTrabalho jornadaTrabalho) {
-        return this.jornadaRepository.save(jornadaTrabalho);
+    public ResponseEntity<JornadaTrabalhoDto> saveJornada(JornadaTrabalhoForm jornadaTrabalhoForm) {
+        JornadaTrabalho jornadaTrabalho = new JornadaTrabalho(jornadaTrabalhoForm.getDescricao());
+        this.jornadaRepository.save(jornadaTrabalho);
+
+        return ResponseEntity.ok(new JornadaTrabalhoDto(jornadaTrabalho));
+
     }
 
     public List<JornadaTrabalho> findAll() {
         return this.jornadaRepository.findAll();
     }
 
-    public ResponseEntity<JornadaTrabalho> getById(Long idJornada) {
+    public ResponseEntity<JornadaTrabalhoDto> getById(Long idJornada) {
         Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
-        return byId.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+        return byId.map(jornadaTrabalho -> ResponseEntity.ok(new JornadaTrabalhoDto(jornadaTrabalho))).orElseGet(() -> ResponseEntity.notFound().build());
+
+        /*if(byId.isPresent()) {
+            return ResponseEntity.ok(new JornadaTrabalhoDto(byId.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }*/
     }
 
     public ResponseEntity<JornadaTrabalhoDto> updateJornada( Long idJornada, AtualizacaoJornadaTrabalhoForm form ) {
@@ -43,7 +53,7 @@ public class JornadaService {
 
     }
 
-    public ResponseEntity<JornadaTrabalho> deleteJornada(Long idJornada) {
+    public ResponseEntity<JornadaTrabalhoDto> deleteJornada(Long idJornada) {
         Optional<JornadaTrabalho> byId = this.jornadaRepository.findById(idJornada);
 
         if (byId.isPresent()) {
